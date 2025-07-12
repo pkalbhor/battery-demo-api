@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify
 from flask_restful import Resource, Api
 from flask_cors import CORS
 
@@ -18,7 +18,17 @@ class BatteryData(Resource):
             }
         }, 200
 
-api.add_resource(BatteryData, '/`battery-data`')
+# Home page route
+@app.route("/")
+def home():
+    return jsonify({
+        "message": "Welcome to the Battery API!",
+        "available_endpoints": [
+            {"endpoint": "/battery-data", "methods": ["GET"]}
+        ]
+    })
+
+api.add_resource(BatteryData, '/battery-data')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=8080)
